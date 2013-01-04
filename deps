@@ -1,0 +1,28 @@
+[symfony]
+    git=http://github.com/symfony/symfony.git
+    version=v2.0.20
+
+[twig]
+    git=http://github.com/fabpot/Twig.git
+    version=v1.10.3
+
+[swiftmailer]
+    git=http://github.com/swiftmailer/swiftmailer.git
+    version=v4.2.2
+
+[SensioDistributionBundle]
+    git=http://github.com/sensio/SensioDistributionBundle.git
+    target=/bundles/Sensio/Bundle/DistributionBundle
+    version=origin/2.0
+
+[doctrine-common]
+    git=http://github.com/doctrine/common.git
+    version=2.2.3
+
+[doctrine-dbal]
+    git=http://github.com/doctrine/dbal.git
+    version=2.2.2
+
+[doctrine]
+    git=http://github.com/doctrine/doctrine2.git
+    version=2.2.3
