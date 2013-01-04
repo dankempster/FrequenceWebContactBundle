@@ -2,6 +2,15 @@
 
 namespace FrequenceWeb\Bundle\ContactBundle\Controller;
 
+
+/**
+ * Annotations
+ */
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+/**
+ * Dependancies
+ */
 use FrequenceWeb\Bundle\ContactBundle\EventDispatcher\ContactEvents;
 use FrequenceWeb\Bundle\ContactBundle\EventDispatcher\Event\MessageSubmitEvent;
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -19,6 +28,7 @@ class DefaultController extends ContainerAware
     /**
      * Action that displays the contact form
      *
+     * @Template("FrequenceWebContactBundle:Default:index.html.twig")
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -27,12 +37,14 @@ class DefaultController extends ContainerAware
     {
         $this->container->get('session')->set('_fw_contact_referer', $request->getUri());
 
-        return $this->renderFormResponse($this->getForm());
+        $form = $this->getForm();
+        return array('form'=>$form->createView());
     }
 
     /**
      * Action that handles the submitted contact form
      *
+     * @Template("FrequenceWebContactBundle:Default:index.html.twig")
      * @param  Request                                    $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -40,7 +52,7 @@ class DefaultController extends ContainerAware
     public function submitAction(Request $request)
     {
         $form = $this->getForm();
-        $form->bind($request);
+        $form->bind($request->request->get('contact'));
 
         if ($form->isValid()) {
             // Send the event for message handling (send mail, add to DB, don't care)
@@ -60,22 +72,7 @@ class DefaultController extends ContainerAware
         $this->container->get('session')->setFlash('error', $message);
 
         // Errors ? Re-render the form
-        return $this->renderFormResponse($form);
-    }
-
-    /**
-     * Returns the rendered form response
-     *
-     * @param  FormInterface                              $form
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function renderFormResponse(FormInterface $form)
-    {
-        return $this->container->get('templating')->renderResponse(
-            'FrequenceWebContactBundle:Default:index.html.twig',
-            array('form' => $form->createView())
-        );
+        return array('form'=>$form->createView());
     }
 
     /**
