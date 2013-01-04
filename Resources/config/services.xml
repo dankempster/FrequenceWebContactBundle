@@ -8,9 +8,16 @@
         <parameter key="frequence_web_contact.type.class">FrequenceWeb\Bundle\ContactBundle\Form\ContactType</parameter>
         <parameter key="frequence_web_contact.model.class">FrequenceWeb\Bundle\ContactBundle\Model\Contact</parameter>
         <parameter key="frequence_web_contact.email_listener.class">FrequenceWeb\Bundle\ContactBundle\EventDispatcher\Listener\EmailContactListener</parameter>
+
+        <parameter key="frequence_web_contact.default_controller.class">FrequenceWeb\Bundle\ContactBundle\Controller\DefaultController</parameter>
     </parameters>
 
     <services>
+        <service id="frequence_web_contact.default_controller" class="%frequence_web_contact.default_controller.class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
         <service id="frequence_web_contact.type" class="%frequence_web_contact.type.class%" />
         <service id="frequence_web_contact.model" class="%frequence_web_contact.model.class%" />
         <service id="frequence_web_contact.email_listener" class="%frequence_web_contact.email_listener.class%">
