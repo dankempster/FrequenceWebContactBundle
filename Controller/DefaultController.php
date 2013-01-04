@@ -40,7 +40,7 @@ class DefaultController extends ContainerAware
     public function submitAction(Request $request)
     {
         $form = $this->getForm();
-        $form->bind($request);
+        $form->bind($request->request->get('contact'));
 
         if ($form->isValid()) {
             // Send the event for message handling (send mail, add to DB, don't care)
