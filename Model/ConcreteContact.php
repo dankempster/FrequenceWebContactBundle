@@ -9,23 +9,8 @@ namespace FrequenceWeb\Bundle\ContactBundle\Model;
  * @author Yohan Giarelli <yohan@giarel.li>
  * @author Dan Kempster <dev@dankempster.co.uk>
  */
-class ConcreteContact
-    implements Contact
+class ConcreteContact extends AbstractContact
 {
-    /**
-     * The sender name
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * The sender email
-     *
-     * @var string
-     */
-    protected $email;
-
     /**
      * The message subject
      *
@@ -57,38 +42,6 @@ class ConcreteContact
     }
 
     /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * @param string $subject
      */
     public function setSubject($subject)
@@ -111,9 +64,7 @@ class ConcreteContact
      */
     public function toTranslateArray()
     {
-        return array(
-            '%name%'    => $this->name,
-            '%email%'   => $this->email,
+        return parent::toTranslateArray()+array(
             '%subject%' => $this->subject,
         );
     }
