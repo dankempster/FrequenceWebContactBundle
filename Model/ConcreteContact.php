@@ -7,8 +7,10 @@ namespace FrequenceWeb\Bundle\ContactBundle\Model;
  * You can extend it, and / or make it an entity or a document.
  *
  * @author Yohan Giarelli <yohan@giarel.li>
+ * @author Dan Kempster <dev@dankempster.co.uk>
  */
-class Contact
+class ConcreteContact
+    implements Contact
 {
     /**
      * The sender name
