@@ -62,6 +62,14 @@ class EmailContactListener
             'FrequenceWebContactBundle'
         ));
 
+        if ($this->config['timestamp_subject']) {
+            $message->setSubject(
+                $message->getSubject()
+               .$this->config['timestamp_subject_separator']
+               .date($this->config['timestamp_mask'])
+            );
+        }
+
         $message->addFrom($this->config['from']);
         $message->addReplyTo($contact->getEmail(), $contact->getName());
         $message->addTo($this->config['to']);
