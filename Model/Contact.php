@@ -8,7 +8,7 @@ namespace FrequenceWeb\Bundle\ContactBundle\Model;
  *
  * @author Yohan Giarelli <yohan@giarel.li>
  */
-class Contact
+interface Contact
 {
     /**
      * @return string
