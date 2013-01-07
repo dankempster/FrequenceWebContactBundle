@@ -56,6 +56,7 @@ class EmailContactListener
     {
         $contact = $event->getContact();
 
+        // @TODO: Is there a Factory or Container we can use to remove this dependancy?
         $message = new \Swift_Message($this->translator->trans(
             $this->config['subject'],
             $contact->toTranslateArray(),
