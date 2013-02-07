@@ -80,7 +80,7 @@ class DefaultController extends ContainerAware
      *
      * @return FormInterface
      */
-    protected function getForm()
+    public function getForm()
     {
         return $this->container->get('form.factory')->create(
             $this->container->get('frequence_web_contact.type'),
