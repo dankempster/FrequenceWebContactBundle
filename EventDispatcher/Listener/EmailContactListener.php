@@ -6,6 +6,9 @@ use FrequenceWeb\Bundle\ContactBundle\EventDispatcher\Event\MessageSubmitEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
+use FrequenceWeb\Bundle\ContactBundle\Exception\InvalidArgumentException;
+use FrequenceWeb\Bundle\ContactBundle\Exception\InvalidConfigKey;
+
 /**
  * Listener for contact events, that sends emails
  *
@@ -90,5 +93,26 @@ class EmailContactListener
         );
 
         $this->mailer->send($message);
+    }
+
+    /**
+     * Change one fo the configuration options
+     *
+     * @param string $key
+     * @param scalar $value
+     * @return EmailContactListener Returns self for fluent interface
+     */
+    public function setConfigValue($key, $value)
+    {
+        if (!isset($this->config[$key])) {
+            throw new InvalidConfigKey("'{$key} is not a valid config value");
+        }
+        elseif (!is_scalar($value)) {
+            throw new InvalidArgumentException("\$value must be a scalar value");
+        }
+
+        $this->config[$key] = $value;
+
+        return $this;
     }
 }
