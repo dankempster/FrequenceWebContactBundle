@@ -33,6 +33,8 @@ class FrequenceWebContactExtension extends Extension
         $definition = $container->getDefinition('frequence_web_contact.email_listener');
         $definition->addArgument($config);
 
+        var_dump($config);
+
         // If mail listener is activated
         if (true === $config['send_mails']) {
             // "To" field is mandatory
