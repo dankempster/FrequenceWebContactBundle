@@ -1,35 +1,84 @@
 <?php
-
 namespace FrequenceWeb\Bundle\ContactBundle\Tests\Functional;
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * A test application kernel
+ * App Test Kernel for functional tests borrowed from Symfony\FrameworkBundle
  *
- * @author Yohan Giarelli <yohan@frequence-web.fr>
+ * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
 class AppKernel extends Kernel
 {
-    /**
-     * @{inheritDoc}
-     */
-    public function registerBundles()
+    private $testCase;
+    private $rootConfig;
+
+    public function __construct($testCase, $rootConfig, $environment, $debug)
     {
-        return array(
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new \Symfony\Bundle\TwigBundle\TwigBundle(),
-            new \FrequenceWeb\Bundle\ContactBundle\FrequenceWebContactBundle(),
-        );
+        if (!is_dir(__DIR__.'/'.$testCase)) {
+            throw new \InvalidArgumentException(sprintf('The test case "%s" does not exist.', $testCase));
+        }
+        $this->testCase = $testCase;
+
+        $fs = new Filesystem();
+        if (!$fs->isAbsolutePath($rootConfig) && !file_exists($rootConfig = __DIR__.'/'.$testCase.'/'.$rootConfig)) {
+            throw new \InvalidArgumentException(sprintf('The root config "%s" does not exist.', $rootConfig));
+        }
+        $this->rootConfig = $rootConfig;
+
+        parent::__construct($environment, $debug);
     }
 
-    /**
-     * @{inheritDoc}
-     */
+    public function registerBundles()
+    {
+        if (!file_exists($filename = $this->getRootDir().'/'.$this->testCase.'/bundles.php')) {
+            throw new \RuntimeException(sprintf('The bundles file "%s" does not exist.', $filename));
+        }
+
+        return include $filename;
+    }
+
+    public function init()
+    {
+    }
+
+    public function getRootDir()
+    {
+        return __DIR__;
+    }
+
+    public function getCacheDir()
+    {
+        return sys_get_temp_dir().'/'.Kernel::VERSION.'/'.$this->testCase.'/cache/'.$this->environment;
+    }
+
+    public function getLogDir()
+    {
+        return sys_get_temp_dir().'/'.Kernel::VERSION.'/'.$this->testCase.'/logs';
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config.yml');
+        $loader->load($this->rootConfig);
+    }
+
+    public function serialize()
+    {
+        return serialize(array($this->testCase, $this->rootConfig, $this->getEnvironment(), $this->isDebug()));
+    }
+
+    public function unserialize($str)
+    {
+        call_user_func_array(array($this, '__construct'), unserialize($str));
+    }
+
+    protected function getKernelParameters()
+    {
+        $parameters = parent::getKernelParameters();
+        $parameters['kernel.test_case'] = $this->testCase;
+
+        return $parameters;
     }
 }

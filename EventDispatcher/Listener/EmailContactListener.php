@@ -76,7 +76,7 @@ class EmailContactListener
 
         $message->addFrom($this->config['from']);
         $message->addReplyTo($contact->getEmail(), $contact->getName());
-        $message->addTo($this->config['to']);
+        $message->setTo($this->config['to']);
         $message->addPart(
             $this->templating->render(
                 'FrequenceWebContactBundle:Mails:mail.html.twig',
