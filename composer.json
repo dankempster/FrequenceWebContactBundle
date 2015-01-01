@@ -1,5 +1,5 @@
 {
-    "name": "frequence-web/contact-bundle",
+    "name": "dankempster/contact-bundle",
     "type": "symfony-bundle",
     "description": "Event-based contact bundle",
     "keywords": ["contact", "bundle", "event"],
@@ -8,6 +8,10 @@
         {
             "name": "Yohan Giarelli",
             "homepage": "http://github.com/yohang"
+        },
+        {
+            "name": "Dan Kempster",
+            "homepage": "http://github.com/dankempster"
         }
     ],
     "require": {
@@ -32,5 +36,7 @@
     "autoload": {
         "psr-0": { "FrequenceWeb\\Bundle\\ContactBundle": "" }
     },
-    "target-dir": "FrequenceWeb/Bundle/ContactBundle"
+    "replace": {
+        "frequence-web/contact-bundle": "dev-master"
+    }
 }

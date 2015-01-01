@@ -6,6 +6,9 @@ use FrequenceWeb\Bundle\ContactBundle\EventDispatcher\Event\MessageSubmitEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
+use FrequenceWeb\Bundle\ContactBundle\Exception\InvalidArgumentException;
+use FrequenceWeb\Bundle\ContactBundle\Exception\InvalidConfigKey;
+
 /**
  * Listener for contact events, that sends emails
  *
@@ -56,15 +59,24 @@ class EmailContactListener
     {
         $contact = $event->getContact();
 
+        // @TODO: Is there a Factory or Container we can use to remove this dependancy?
         $message = new \Swift_Message($this->translator->trans(
             $this->config['subject'],
             $contact->toTranslateArray(),
             'FrequenceWebContactBundle'
         ));
 
+        if ($this->config['timestamp_subject']) {
+            $message->setSubject(
+                $message->getSubject()
+               .$this->config['timestamp_subject_separator']
+               .date($this->config['timestamp_mask'])
+            );
+        }
+
         $message->addFrom($this->config['from']);
         $message->addReplyTo($contact->getEmail(), $contact->getName());
-        $message->addTo($this->config['to']);
+        $message->setTo($this->config['to']);
         $message->addPart(
             $this->templating->render(
                 'FrequenceWebContactBundle:Mails:mail.html.twig',
@@ -81,5 +93,26 @@ class EmailContactListener
         );
 
         $this->mailer->send($message);
+    }
+
+    /**
+     * Change one fo the configuration options
+     *
+     * @param string $key
+     * @param scalar $value
+     * @return EmailContactListener Returns self for fluent interface
+     */
+    public function setConfigValue($key, $value)
+    {
+        if (!isset($this->config[$key])) {
+            throw new InvalidConfigKey("'{$key} is not a valid config value");
+        }
+        elseif (!is_scalar($value)) {
+            throw new InvalidArgumentException("\$value must be a scalar value");
+        }
+
+        $this->config[$key] = $value;
+
+        return $this;
     }
 }

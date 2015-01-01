@@ -26,10 +26,19 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('send_mails')->defaultTrue()->end()
-                ->scalarNode('to')->defaultValue(null)->end()
+                ->arrayNode('to')
+                    ->prototype('scalar')->end()
+                    ->beforeNormalization()
+                        ->ifString()
+                        ->then(function($v) { return array($v); })
+                    ->end()
+                    ->defaultValue(array())
+                ->end()
                 ->scalarNode('from')->defaultValue('no-reply@example.com')->end()
-                ->scalarNode('subject')->defaultValue('contact.message.new')
-            ->end()
+                ->scalarNode('subject')->defaultValue('contact.message.new')->end()
+                ->booleanNode('timestamp_subject')->defaultValue(false)->end()
+                ->scalarNode('timestamp_subject_separator')->defaultValue(' - ')->end()
+                ->scalarNode('timestamp_mask')->defaultValue('d/m/Y H:i')->end()
         ;
 
         return $treeBuilder;

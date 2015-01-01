@@ -1,7 +1,7 @@
 FrequenceWebContactBundle
 =========================
 
-[![Build Status](https://travis-ci.org/yohang/FrequenceWebContactBundle.png?branch=master)](https://travis-ci.org/yohang/FrequenceWebContactBundle)
+[![Build Status](https://travis-ci.org/dankempster/FrequenceWebContactBundle.png?branch=master)](https://travis-ci.org/dankempster/FrequenceWebContactBundle)
 
 An event-based Symfony2 Contact Bundle.
 
@@ -11,7 +11,7 @@ Installation
 ### Install the bundle via composer
 
 ```sh
- $ composer require frequence-web/contact-bundle:1.0.*
+ $ composer require dankempster/contact-bundle:1.0.*
 ```
 
 ### Add the bundle to your `AppKernel` class

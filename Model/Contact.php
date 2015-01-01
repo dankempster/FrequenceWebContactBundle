@@ -8,111 +8,22 @@ namespace FrequenceWeb\Bundle\ContactBundle\Model;
  *
  * @author Yohan Giarelli <yohan@giarel.li>
  */
-class Contact
+interface Contact
 {
     /**
-     * The sender name
-     *
-     * @var string
+     * @return string
      */
-    protected $name;
-
-    /**
-     * The sender email
-     *
-     * @var string
-     */
-    protected $email;
-
-    /**
-     * The message subject
-     *
-     * @var string
-     */
-    protected $subject;
-
-    /**
-     * The message body
-     *
-     * @var string
-     */
-    protected $body;
-
-    /**
-     * @param string $body
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-    }
+    public function getEmail();
 
     /**
      * @return string
      */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $subject
-     */
-    public function setSubject($subject)
-    {
-        $this->subject = $subject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubject()
-    {
-        return $this->subject;
-    }
+    public function getName();
 
     /**
      * Returns data that can be injected in the translating message subject
      *
      * @return array
      */
-    public function toTranslateArray()
-    {
-        return array(
-            '%name%'    => $this->name,
-            '%email%'   => $this->email,
-            '%subject%' => $this->subject,
-        );
-    }
+    public function toTranslateArray();
 }
