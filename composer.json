@@ -34,7 +34,7 @@
         "symfony/swiftmailer-bundle": "If your want to use the (default) mail listener."
     },
     "autoload": {
-        "psr-0": { "FrequenceWeb\\Bundle\\ContactBundle": "" }
+        "psr-4": { "FrequenceWeb\\Bundle\\ContactBundle\\": "" }
     },
     "replace": {
         "frequence-web/contact-bundle": "dev-master"
