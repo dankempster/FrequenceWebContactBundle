@@ -28,7 +28,8 @@
         "symfony/class-loader":        "~2.1",
         "symfony/dom-crawler":         "~2.1",
         "symfony/finder":              "~2.1",
-        "symfony/swiftmailer-bundle":  "~2.1"
+        "symfony/swiftmailer-bundle":  "~2.1",
+        "satooshi/php-coveralls": "dev-master"
     },
     "suggest": {
         "symfony/swiftmailer-bundle": "If your want to use the (default) mail listener."
