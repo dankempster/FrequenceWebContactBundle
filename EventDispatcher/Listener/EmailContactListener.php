@@ -5,7 +5,6 @@ namespace FrequenceWeb\Bundle\ContactBundle\EventDispatcher\Listener;
 use FrequenceWeb\Bundle\ContactBundle\EventDispatcher\Event\MessageSubmitEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-
 use FrequenceWeb\Bundle\ContactBundle\Exception\InvalidArgumentException;
 use FrequenceWeb\Bundle\ContactBundle\Exception\InvalidConfigKey;
 
